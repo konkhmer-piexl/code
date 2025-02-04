@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login & Register Form</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f7fa;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .login-container, .register-container {
+      background-color: #fff;
+      padding: 40px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      width: 300px;
+      display: none;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 24px;
+    }
+
+    .input-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      font-size: 14px;
+      color: #333;
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    input[type="text"], input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+
+    input[type="checkbox"] {
+      margin-top: 10px;
+    }
+
+    .button {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .button:hover {
+      background-color: #45a049;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 10px;
+      font-size: 14px;
+    }
+
+    .error-message {
+      color: red;
+      text-align: center;
+      font-size: 14px;
+      margin-top: 10px;
+    }
+
+    .link {
+      text-align: center;
+      font-size: 14px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Login Form -->
+  <div class="login-container" id="login-form">
+    <h2>Login</h2>
+    <div class="input-group">
+      <label for="username-login">Username</label>
+      <input type="text" id="username-login" placeholder="Enter your username">
+    </div>
+    <div class="input-group">
+      <label for="password-login">Password</label>
+      <input type="password" id="password-login" placeholder="Enter your password">
+    </div>
+    <div class="input-group">
+      <label>
+        <input type="checkbox" id="showPasswordLogin" onclick="togglePassword('login')"> Show Password
+      </label>
+    </div>
+    <button class="button" onclick="validateLogin()">Login</button>
+    <div class="error-message" id="error-message-login"></div>
+    <div class="link">
+      <p>Don't have an account? <a href="#" onclick="showRegisterForm()">Register here</a></p>
+    </div>
+  </div>
+
+  <!-- Register Form -->
+  <div class="register-container" id="register-form">
+    <h2>Register</h2>
+    <div class="input-group">
+      <label for="username-register">Username</label>
+      <input type="text" id="username-register" placeholder="Choose a username">
+    </div>
+    <div class="input-group">
+      <label for="password-register">Password</label>
+      <input type="password" id="password-register" placeholder="Choose a password">
+    </div>
+    <div class="input-group">
+      <label for="confirm-password">Confirm Password</label>
+      <input type="password" id="confirm-password" placeholder="Confirm your password">
+    </div>
+    <button class="button" onclick="registerUser()">Register</button>
+    <div class="error-message" id="error-message-register"></div>
+    <div class="link">
+      <p>Already have an account? <a href="#" onclick="showLoginForm()">Login here</a></p>
+    </div>
+  </div>
+
+  <script>
+    function togglePassword(formType) {
+      var passwordField = document.getElementById("password-" + formType);
+      var showPasswordCheckbox = document.getElementById("showPassword" + (formType === 'login' ? 'Login' : 'Register'));
+
+      if (showPasswordCheckbox.checked) {
+        passwordField.type = "text";
+      } else {
+        passwordField.type = "password";
+      }
+    }
+
+    // Show Login form
+    function showLoginForm() {
+      document.getElementById("login-form").style.display = "block";
+      document.getElementById("register-form").style.display = "none";
+    }
+
+    // Show Register form
+    function showRegisterForm() {
+      document.getElementById("register-form").style.display = "block";
+      document.getElementById("login-form").style.display = "none";
+    }
+
+    // Validate login credentials
+    function validateLogin() {
+      var username = document.getElementById("username-login").value;
+      var password = document.getElementById("password-login").value;
+      var errorMessage = document.getElementById("error-message-login");
+
+      // Predefined username and password for login
+      var correctUsername = "user123";
+      var correctPassword = "password123";
+
+      if (username === correctUsername && password === correctPassword) {
+        errorMessage.textContent = "";
+        alert("Login successful!");
+      } else {
+        errorMessage.textContent = "Incorrect username or password. Please try again.";
+        resetLoginForm(); // Reset to default values on incorrect login
+      }
+    }
+
+    // Reset login form to default values
+    function resetLoginForm() {
+      document.getElementById("username-login").value = "";
+      document.getElementById("password-login").value = "";
+      document.getElementById("showPasswordLogin").checked = false;
+    }
+
+    // Register a new user
+    function registerUser() {
+      var username = document.getElementById("username-register").value;
+      var password = document.getElementById("password-register").value;
+      var confirmPassword = document.getElementById("confirm-password").value;
+      var errorMessage = document.getElementById("error-message-register");
+
+      // Check if password and confirm password match
+      if (password === confirmPassword) {
+        errorMessage.textContent = "";
+        alert("Registration successful! You can now log in.");
+        showLoginForm(); // Switch to login form after successful registration
+      } else {
+        errorMessage.textContent = "Passwords do not match. Please try again.";
+      }
+    }
+
+    // Initialize to show the login form first
+    showLoginForm();
+  </script>
+
+</body>
+</html>
